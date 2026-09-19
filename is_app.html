@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f1420">
+<title>مقرر نظم المعلومات</title>
+<style>
+:root{
+  --bg:#0f1420; --card:#161d2e; --card2:#1c2438; --line:#2a3450; --text:#e9edf5; --sub:#9aa5b8;
+  --c1:#3b82f6; --c2:#8b5cf6; --c4:#f59e0b;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tahoma","Segoe UI",sans-serif;line-height:1.7;user-select:none}
+input,textarea{user-select:text}
+.screen{display:none;min-height:100%}
+.screen.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ===== HOME ===== */
+#home{padding:0}
+.home-header{padding:22px 18px 16px;background:linear-gradient(135deg,#1a2340,#151b2e);border-bottom:1px solid var(--line)}
+.home-header h1{margin:0;font-size:1.3rem}
+.home-header p{margin:6px 0 0;color:var(--sub);font-size:.85rem}
+.lec-list{padding:14px}
+.lec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;cursor:pointer}
+.lec-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex:0 0 auto}
+.lec-info b{display:block;font-size:.95rem}
+.lec-info span{color:var(--sub);font-size:.78rem}
+.lec-arrow{margin-inline-start:auto;color:var(--sub)}
+.install-tip{margin:14px;padding:14px;background:var(--card2);border:1px dashed var(--line);border-radius:14px;font-size:.8rem;color:var(--sub)}
+.install-tip b{color:var(--text)}
+
+/* ===== COURSE SCREEN ===== */
+.top{position:sticky;top:0;top:env(safe-area-inset-top,0px);z-index:10;background:#101627;border-bottom:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.back{background:var(--card2);border:1px solid var(--line);color:var(--text);width:34px;height:34px;border-radius:10px;font-size:1rem;cursor:pointer}
+.top b{font-size:.95rem}
+nav.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;background:#101627;border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:9}
+nav.tabs button{flex:0 0 auto;background:var(--card2);color:var(--text);border:1px solid var(--line);padding:8px 14px;border-radius:20px;font-size:.83rem;cursor:pointer;white-space:nowrap}
+nav.tabs button.active{color:#fff}
+main.content{max-width:820px;margin:0 auto;padding:16px;padding-bottom:60px}
+.tabpane{display:none}
+.tabpane.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.acc-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px}
+.acc-head b{font-size:.93rem}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.acc-body p{color:var(--sub);font-size:.87rem;margin:10px 0 0}
+.acc-body ul{margin:10px 0 0;padding-inline-start:18px;color:var(--sub);font-size:.85rem}
+.chev{transition:transform .3s}
+.open .chev{transform:rotate(180deg)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+.flash{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;min-height:90px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;font-size:.88rem}
+.flash .front{font-weight:bold}
+.flash .back{display:none;color:var(--sub);font-size:.82rem}
+.flash.flip .front{display:none}
+.flash.flip .back{display:block}
+.qwrap{margin-bottom:16px}
+.qwrap h4{font-size:.9rem;margin:0 0 10px}
+.opt{display:block;width:100%;text-align:right;background:var(--card2);border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:.84rem}
+.opt.correct{border-color:#10b981;background:#0f2a22}
+.opt.wrong{border-color:#ef4444;background:#2a1414}
+.opt[disabled]{cursor:default}
+.btn{border:none;padding:10px 20px;border-radius:10px;font-size:.88rem;cursor:pointer;color:#fff;font-weight:bold}
+.score-box{text-align:center;padding:20px}
+.score-num{font-size:2.2rem;font-weight:bold}
+.pill{display:inline-block;background:var(--card2);border:1px solid var(--line);padding:3px 10px;border-radius:20px;font-size:.7rem;color:var(--sub);margin-inline-end:6px;margin-bottom:6px}
+.take{border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--line);background:var(--card2)}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="light"]){--bg:#f4f6fb;--card:#fff;--card2:#eef1f8;--text:#1a2036;--sub:#5b6478;--line:#dfe4f0}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HOME SCREEN ============ -->
+<div class="screen active" id="home">
+  <div class="home-header">
+    <h1>📚 مقرر نظم المعلومات</h1>
+    <p>تطبيقك الشخصي للمراجعة — يعمل بدون إنترنت</p>
+  </div>
+  <div class="lec-list" id="lecList"></div>
+  <div class="install-tip">
+    📲 <b>لتثبيت التطبيق على شاشتك الرئيسية:</b><br>
+    آيفون: افتح الملف في Safari ← زر المشاركة ← "إضافة إلى الشاشة الرئيسية"<br>
+    أندرويد: افتح الملف في Chrome ← القائمة (⋮) ← "إضافة إلى الشاشة الرئيسية"
+  </div>
+</div>
+
+<!-- ============ COURSE SCREEN TEMPLATE (shared) ============ -->
+<div class="screen" id="course">
+  <div class="top">
+    <button class="back" onclick="goHome()">→</button>
+    <b id="courseTitle"></b>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-t="explain" class="active">الشرح</button>
+    <button data-t="glossary">المصطلحات</button>
+    <button data-t="quiz">الاختبار</button>
+    <button data-t="summary">الملخص</button>
+  </nav>
+  <main class="content">
+    <div class="tabpane active" id="pane-explain"></div>
+    <div class="tabpane" id="pane-glossary"><div class="grid2" id="flashGrid"></div></div>
+    <div class="tabpane" id="pane-quiz"><div id="quizArea"></div></div>
+    <div class="tabpane" id="pane-summary"></div>
+  </main>
+</div>
+
+<script>
+/* ================= DATA: LECTURE 1 ================= */
+const L1 = {
+  id:"l1", icon:"📘", color:"#3b82f6", title:"نظم المعلومات: المفاهيم والقيمة",
+  sub:"المحاضرة 01 · People · Process · Data · Technology",
+  topics:[
+    ["01 · الفكرة الأساسية","النظام الناجح لا يعتمد على التقنية وحدها","نظام المعلومات يربط 4 عناصر: الأفراد، العمليات، البيانات، التقنية. ضعف أي عنصر يُضعف النتيجة كاملة.",["مثال: تضارب حجوزات المختبرات يُحل برسم الطلب والأدوار والبيانات لا بشراء برنامج"]],
+    ["02 · التمييز","نظم المعلومات مقابل تقنية المعلومات وعلوم الحاسوب","نظم المعلومات تربط التقنية بالمستخدم والقرار. تقنية المعلومات تشغّل البنية. علوم الحاسوب تبني الخوارزميات.",[]],
+    ["03 · النظام الاجتماعي-التقني","People·Process·Data·Technology","لا ينجح النظام لأن برمجياته جيدة فقط، بل لأن الأفراد والعمليات والبيانات والتقنية تعمل معًا بتناغم.",[]],
+    ["04 · نموذج IPOF","من البيانات إلى القرار","مدخلات ← معالجة ← مخرجات ← تغذية راجعة. إذا ضعفت المخرجات، افحص المدخلات والمعالجة لا الشاشة فقط.",[]],
+    ["05 · سلسلة القيمة","Process → Information → Decision → Outcome","القيمة تتولد من تحسين العملية، لا بإضافة شاشة. إن لم يتغيّر القرار أو التجربة، فالتقنية تكلفة لا قيمة.",[]],
+    ["06 · التحول الرقمي","رقمنة محدودة مقابل تحول حقيقي","الرقمنة: نقل المستند لإلكتروني. التحول الرقمي: إعادة تصور العملية والقيمة بالكامل.",["ابدأ بالمشكلة والنتيجة لا بالأداة"]],
+    ["07 · المسؤولية بالتصميم","الخصوصية والإنصاف والشفافية والمساءلة","الثقة تُبنى في المتطلبات منذ البداية لا بعد الإطلاق.",[]],
+    ["08 · الأنظمة المؤسسية","ERP·CRM·SCM والتكامل","التكامل يمنع الجزر المعلوماتية عبر مصدر مرجعي موحد ومعرّف ثابت.",[]],
+    ["09 · جودة البيانات","5 معايير","الدقة، الاكتمال، الاتساق، الحداثة، وقابلية التتبع.",[]],
+    ["10 · من البيانات إلى القرار","Data→Information→Knowledge→Decision","كل مستوى يحتاج سياقًا إضافيًا قبل الانتقال للأعلى.",[]],
+    ["11 · الأمن جزء من النظام","CIA: السرية·السلامة·التوافر","الأمن يُبنى في التصميم لا يُضاف لاحقًا.",[]],
+    ["12 · الذكاء الاصطناعي والحوكمة","القيمة لا تأتي من النموذج وحده","يحتاج سؤال عمل، بيانات مناسبة، تفسيرًا، ورقابة بشرية.",[]],
+    ["13 · المفاضلات","كل قرار رقمي فيه مفاضلة","السرعة، التكلفة، الخصوصية، الأمن، تجربة المستخدم — لا خيار مثالي بلا تنازلات.",[]]
+  ],
+  glossary:[
+    ["نظام المعلومات","تكامل الأفراد والعمليات والبيانات والتقنية لإنتاج قيمة"],
+    ["العملية","تدفق عمل له بداية ونهاية ومالك وقواعد ومخرج قابل للقياس"],
+    ["البيانات","حقائق أولية تحتاج تعريفًا ومصدرًا وجودة لتصبح معلومة موثوقة"],
+    ["التكامل","تبادل منضبط للبيانات بين الأنظمة عبر معرفات وواجهات"],
+    ["الحوكمة","تحديد من يقرر وما السياسة التي تجعل القرار قابلاً للمساءلة"],
+    ["مؤشر الأداء KPI","مقياس له تعريف ووحدة ومصدر ومالك يقود لإجراء"],
+    ["الضابط","إجراء يقلل احتمال الخطأ أو أثره"],
+    ["المواءمة","ربط هدف المؤسسة بالقدرة والمبادرة الرقمية والمقياس"],
+    ["الجزر المعلوماتية","تعدد تعريفات نفس الكيان بين الأقسام"],
+    ["الأمن بالتصميم","بناء ضوابط الحماية منذ مرحلة المتطلبات"]
+  ],
+  quiz:[
+    {q:"ما الفكرة العملية الأساسية للمحاضرة؟",o:["شراء أحدث التقنيات","ربط الناس والعمليات والبيانات والتقنية","الاعتماد على البرمجيات فقط","تدريب الموظفين فقط"],a:1},
+    {q:"ما يميز نظم المعلومات عن تقنية المعلومات؟",o:["تشغيل الخوادم","ربط التقنية بالمستخدم والقرار التنظيمي","لا فرق","كتابة الخوارزميات"],a:1},
+    {q:"في IPOF، ماذا يعني F؟",o:["Function","Feedback","Format","Finance"],a:1},
+    {q:"الفرق بين الرقمنة والتحول الرقمي؟",o:["لا فرق","الرقمنة تنقل المستند فقط، والتحول يعيد تصميم العملية","التحول أرخص","الرقمنة تحتاج AI"],a:1},
+    {q:"أي مما يلي ليس من مبادئ المسؤولية بالتصميم؟",o:["الشفافية","المساءلة","السرعة بأي ثمن","الإنصاف"],a:2},
+    {q:"وظيفة المصدر المرجعي الموحد؟",o:["تسريع الشبكة","منع تعدد تعريفات نفس الكيان","تقليل التكلفة","تحسين الواجهة"],a:1},
+    {q:"أي بُعد يجيب: هل وصلت المعلومة وقت القرار؟",o:["الدقة","الاتساق","الحداثة","الاكتمال"],a:2},
+    {q:"مكونات CIA؟",o:["Cost,Impact,Access","Confidentiality,Integrity,Availability","Control,Identity,Audit","Compliance,Insurance,Access"],a:1},
+    {q:"وفق الاستخدام المسؤول للذكاء الاصطناعي، ماذا يبقى؟",o:["استبدال القرار البشري","الرقابة البشرية على الحالات المؤثرة","إخفاء منطق النموذج","صفر بيانات"],a:1},
+    {q:"لماذا التقنية 'تكلفة لا قيمة' أحيانًا؟",o:["لأنها مكلفة دائمًا","إذا لم يتغيّر سلوك العملية أو القرار أو التجربة","تحتاج صيانة","بطيئة"],a:1}
+  ],
+  takeaways:["ابدأ بالقيمة — عرّف النتيجة قبل الأداة","صمّم النظام كاملاً — الأفراد والعملية والبيانات والتقنية معًا","ابنِ الثقة منذ البداية — الجودة والأمن متطلبات تصميم","قِس ثم تعلّم — اربط المخرج بمؤشر ومالك ومراجعة"],
+  tags:["People","Process","Data","Technology","Governance","Strategy"],
+  next:"العمليات التجارية والأنظمة المؤسسية: كيف تتكامل الخدمة والبيانات والقرار عبر المؤسسة؟"
+};
+
+/* ================= DATA: LECTURE 4 ================= */
+const L4 = {
+  id:"l4", icon:"🔐", color:"#f59e0b", title:"الأمن السيبراني والحوكمة الرقمية",
+  sub:"المحاضرة 04 · من الخطر إلى الثقة الرقمية",
+  topics:[
+    ["01 · قيمة الأمن","حماية الخدمة والبيانات والقرار والثقة والحقوق","الأمن لا يمنع كل شيء بل يحمي خطرًا متناسبًا ويستمر بثقة.",[]],
+    ["02 · نموذج المخاطر","Asset·Threat·Vulnerability·Impact·Control","الأصل ← التهديد ← الثغرة ← الأثر ← الضابط.",["لا تبحث عن صفر مخاطر؛ ابحث عن قرار واعٍ"]],
+    ["03 · مثلث CIA","السرية·السلامة·التوافر","توازن الثلاثة قرار تصميم لا اختصار للحفظ.",[]],
+    ["04 · الهوية والوصول","Identity·Authenticate·Authorize·Least Privilege","التحقق من الهوية، منح دور مناسب، أقل صلاحية، ومراجعة مستمرة.",[]],
+    ["05 · انعدام الثقة","Zero Trust","تحقق من كل طلب وصول بغض النظر عن الموقع داخل الشبكة أو خارجها.",[]],
+    ["06 · العامل البشري","الهندسة الاجتماعية والدفاع المتمركز حول الإنسان","تحقق مستقل، وضوح سياق، إبلاغ بلا لوم، وتحسين التصميم.",["النمط: استدراج ← ضغط ← تجاوز ← أثر"]],
+    ["07 · الاستجابة للحوادث","Prepare·Detect·Contain·Recover·Learn","سرعة العودة يجب ألا تمحو الدليل أو تُخفي قرارًا.",[]],
+    ["08 · استمرارية الأعمال","خطة لا تُختبر ليست قدرة تشغيلية","حدد الحرج، رتب الأولويات، جهز النسخ، استعد وتحقق، ثم تمرّن.",[]],
+    ["09 · الحوكمة الرقمية","من يملك حق القرار؟","سياسة ← معيار ← إجراء ← دليل ← مراجعة.",[]],
+    ["10 · حوكمة الخصوصية","Purpose·Minimize·Access·Transparency·Retention","وجود البيانات لا يعني إباحة استخدامها لكل غرض.",[]],
+    ["11 · مخاطر الطرف الثالث","المورد شريك في المخاطر","السحابة مسؤولية مشتركة: المزود يحمي البنية والعميل مسؤول عن البيانات والهوية.",[]],
+    ["12 · مؤشرات الأمن والثقافة","القياس يقود قرارًا لا خوفًا","مؤشر جيد يربط خطرًا بسؤال ومالك وعتبة وإجراء.",[]],
+    ["13 · الدفاع المتعمق","طبقات: أفراد، عمليات، تقنية، مرونة","لا يوجد ضابط واحد يمنع كل خطر.",[]],
+    ["14 · حوكمة الذكاء الاصطناعي والأخلاقيات","العدالة، الشفافية، الحقوق، المساءلة","المساءلة عن الأثر تبقى على المؤسسة والإنسان لا الأداة.",[]]
+  ],
+  glossary:[
+    ["المخاطر","احتمال أن يؤثر تهديد في أصل ذي قيمة فيضر الخدمة أو الثقة"],
+    ["الضابط","إجراء يمنع الخطر أو يكشفه أو يخفف أثره"],
+    ["الهوية","معرّف ودور ودورة حياة لشخص أو نظام"],
+    ["أقل صلاحية","منح أقل وصول ممكن للمدة اللازمة فقط"],
+    ["الاستجابة للحوادث","استعداد وكشف واحتواء واستعادة وتعلّم"],
+    ["الخصوصية","استخدام البيانات وفق غرض وحد أدنى ووصول محدد"],
+    ["الحوكمة","تحديد حق القرار والسياسة والمالك والمراجعة"],
+    ["المرونة","قدرة الخدمة على الاستمرار أو الاستعادة بعد خطأ"],
+    ["انعدام الثقة","التحقق الصريح من كل طلب وصول"],
+    ["مثلث CIA","السرية والسلامة والتوافر"]
+  ],
+  quiz:[
+    {q:"ما الفكرة الأساسية لقيمة الأمن؟",o:["منع كل الوصول","حماية الخدمة والبيانات والثقة بخطر متناسب","زيادة التنبيهات","تعطيل النظام"],a:1},
+    {q:"ما يسبق 'الأثر' في نموذج المخاطر؟",o:["الأصل فقط","الثغرة","الضابط","المراجعة"],a:1},
+    {q:"ماذا تعني السلامة (Integrity)؟",o:["إتاحة دائمة","حماية دقة البيانات من التغيير غير المصرح","تشفير الملفات","حذف البيانات"],a:1},
+    {q:"مبدأ أقل صلاحية؟",o:["منح كل الصلاحيات للموثوقين","الحد الأدنى من الوصول للمدة اللازمة","منع الوصول نهائيًا","مشاركة كلمة المرور"],a:1},
+    {q:"افتراض Zero Trust الأساسي؟",o:["الشبكة الداخلية موثوقة دائمًا","التحقق الصريح من كل طلب وصول","لا حاجة للمراقبة","الجهاز آمن تلقائيًا"],a:1},
+    {q:"أفضل رد على خطأ هندسة اجتماعية؟",o:["لوم الموظف","تحسين التصميم والإبلاغ بلا خوف","تجاهل الحادث","منع الموظف من النظام"],a:1},
+    {q:"ترتيب دورة الاستجابة للحوادث؟",o:["Recover→Detect→Prepare","Prepare→Detect→Contain→Recover→Learn","Contain→Prepare→Learn","Learn→Prepare→Detect"],a:1},
+    {q:"ماذا تحدد حقوق القرار في الحوكمة؟",o:["نوع الخط","من يوافق على قبول الخطر أو إطلاق خدمة","سرعة الإنترنت","عدد الموظفين"],a:1},
+    {q:"في السحابة، من يبقى مسؤولاً عن الهوية والبيانات؟",o:["المزود فقط","العميل (المؤسسة)","لا أحد","شركة التأمين"],a:1},
+    {q:"من يتحمل المساءلة عن أثر الذكاء الاصطناعي؟",o:["الأداة نفسها","المؤسسة والإنسان","المستخدم فقط","لا أحد"],a:1}
+  ],
+  takeaways:["عرّف القيمة والخطر قبل اختيار الضابط","اربط الهوية والوصول بالغرض والخدمة","اجعل الحوكمة والخصوصية قابلة للتشغيل","صمّم المرونة والتعلم قبل الحادث"],
+  tags:["Risk","CIA","Zero Trust","IAM","Incident Response","Privacy","AI Governance"],
+  next:"مواءمة نظم المعلومات مع الأهداف الاستراتيجية، وإدارة التحول الرقمي في محفظة مبادرات متكاملة."
+};
+
+const COURSES = [L1, L4];
+let current = null;
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  document.getElementById('lecList').innerHTML = COURSES.map(c=>`
+    <div class="lec-card" onclick="openCourse('${c.id}')">
+      <div class="lec-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+      <div class="lec-info"><b>${c.title}</b><span>${c.sub}</span></div>
+      <div class="lec-arrow">‹</div>
+    </div>`).join('');
+}
+function goHome(){
+  document.getElementById('course').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+}
+function openCourse(id){
+  current = COURSES.find(c=>c.id===id);
+  document.getElementById('courseTitle').textContent = current.title;
+  document.querySelectorAll('nav.tabs button').forEach(b=>{b.style.background=''; b.classList.remove('active');});
+  document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+  document.querySelector('[data-t="explain"]').classList.add('active');
+  document.getElementById('pane-explain').classList.add('active');
+  renderExplain(); renderGlossary(); renderQuiz(); renderSummary();
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('course').classList.add('active');
+  document.getElementById('course').scrollTop = 0;
+  document.querySelectorAll('nav.tabs button.active').forEach(b=>b.style.background=current.color);
+}
+
+/* ---------- TABS ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>{x.classList.remove('active'); x.style.background='';});
+    document.querySelectorAll('.tabpane').forEach(s=>s.classList.remove('active'));
+    b.classList.add('active'); b.style.background = current.color;
+    document.getElementById('pane-'+b.dataset.t).classList.add('active');
+  };
+});
+
+/* ---------- EXPLAIN ---------- */
+function renderExplain(){
+  document.getElementById('pane-explain').innerHTML = current.topics.map((t,i)=>`
+    <div class="card acc" id="acc${i}">
+      <div class="acc-head" onclick="toggleAcc(${i})"><b>${t[0]} — ${t[1]}</b><span class="chev">▾</span></div>
+      <div class="acc-body" id="accb${i}"><p>${t[2]}</p>${t[3].length?`<ul>${t[3].map(x=>`<li>${x}</li>`).join('')}</ul>`:''}</div>
+    </div>`).join('');
+}
+function toggleAcc(i){
+  const card = document.getElementById('acc'+i), body = document.getElementById('accb'+i);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.acc.open').forEach(c=>{c.classList.remove('open'); c.querySelector('.acc-body').style.maxHeight=null;});
+  if(!isOpen){ card.classList.add('open'); body.style.maxHeight = body.scrollHeight+'px'; }
+}
+
+/* ---------- GLOSSARY ---------- */
+function renderGlossary(){
+  document.getElementById('flashGrid').innerHTML = current.glossary.map(g=>`
+    <div class="flash" onclick="this.classList.toggle('flip')"><div class="front">${current.icon} ${g[0]}</div><div class="back">${g[1]}</div></div>`).join('');
+}
+
+/* ---------- QUIZ ---------- */
+let userAnswers = [];
+function renderQuiz(){
+  userAnswers = new Array(current.quiz.length).fill(null);
+  document.getElementById('quizArea').innerHTML = current.quiz.map((q,i)=>`
+    <div class="card qwrap" id="qw${i}"><h4>${i+1}. ${q.q}</h4>
+      ${q.o.map((op,j)=>`<button class="opt" onclick="answer(${i},${j})">${op}</button>`).join('')}
+    </div>`).join('') + `<div style="text-align:center;margin-top:10px"><button class="btn" style="background:${current.color}" onclick="showScore()">عرض النتيجة</button></div>`;
+}
+function answer(qi,oi){
+  if(userAnswers[qi]!==null) return;
+  userAnswers[qi]=oi;
+  const wrap = document.getElementById('qw'+qi);
+  wrap.querySelectorAll('.opt').forEach((b,j)=>{
+    b.disabled = true;
+    if(j===current.quiz[qi].a) b.classList.add('correct');
+    else if(j===oi) b.classList.add('wrong');
+  });
+}
+function showScore(){
+  const total = current.quiz.length;
+  const correct = userAnswers.reduce((s,a,i)=> s + (a===current.quiz[i].a?1:0), 0);
+  const key = 'is_'+current.id+'_best';
+  let best = 0;
+  try{ best = parseInt(localStorage.getItem(key)||'0'); }catch(e){}
+  if(correct>best){ try{ localStorage.setItem(key, correct); }catch(e){} best=correct; }
+  document.getElementById('quizArea').innerHTML = `<div class="card score-box">
+    <div class="score-num" style="color:${current.color}">${correct} / ${total}</div>
+    <p>أفضل نتيجة على هذا الجهاز: <b>${best} / ${total}</b></p>
+    <button class="btn" style="background:${current.color}" onclick="renderQuiz()">إعادة المحاولة</button>
+  </div>`;
+}
+
+/* ---------- SUMMARY ---------- */
+function renderSummary(){
+  document.getElementById('pane-summary').innerHTML =
+    current.takeaways.map((t,i)=>`<div class="take" style="border-color:${current.color}55"><b style="color:${current.color}">${String(i+1).padStart(2,'0')} · ${t}</b></div>`).join('') +
+    `<div class="card"><b>وسوم المحاضرة</b><br><br>${current.tags.map(x=>`<span class="pill">${x}</span>`).join('')}</div>
+     <div class="card"><b>المحاضرة القادمة</b><p style="color:var(--sub);margin:8px 0 0">${current.next}</p></div>`;
+}
+
+renderHome();
+</script>
+</body>
+</html>
