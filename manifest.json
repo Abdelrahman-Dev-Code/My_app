@@ -1,0 +1,17 @@
+{
+  "name": "مقرر نظم المعلومات",
+  "short_name": "نظم المعلومات",
+  "description": "تطبيق مراجعة تفاعلي لمقرر نظم المعلومات: شرح، مصطلحات، اختبارات",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1420",
+  "theme_color": "#0f1420",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
